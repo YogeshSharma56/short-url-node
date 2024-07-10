@@ -11,8 +11,9 @@ async function handleGenerateNewShortURL(req, res) {
     redirectURL: body.url,
     visitHistory: [],
   });
-
-  return res.json({ id: shortID });
+  return res.render("home", {
+    id: shortID
+  })
 }
 async function handleGetAllUrls(req, res) {
   const result = await URL.find({});
@@ -31,8 +32,12 @@ async function handleRedirectToUrl (req,res) {
         },
       },
     }
-  );
-  res.redirect(entry.redirectURL);
+  );try {
+    res.redirect(entry.redirectURL); 
+  } catch (error) {
+    console.log(error)
+  }
+  
 }
 async function handleGetAnalytics(req, res) {
   const shortId = req.params.shortId;
